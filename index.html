@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#7c3aed">
+<title>Mi Tienda | Página de muestra</title>
+
+<!--
+  ╔═══════════════════════════════════════════════════════════════════════╗
+  ║   ⚠️  ESTA ES UNA PÁGINA DE MUESTRA / PLANTILLA                        ║
+  ╚═══════════════════════════════════════════════════════════════════════╝
+
+  Todo lo marcado con 🟡 es contenido de MUESTRA que puedes borrar.
+  Todo lo marcado con 🟢 es donde van tus datos reales.
+
+  ➤ PARA PUBLICAR TU TIENDA REAL:
+     1) Edita el objeto CONFIG al inicio del <script>.
+     2) Rellena PRODUCTOS_REALES (los de muestra desaparecen solos).
+     3) Cambia el nombre en <header> (busca "← CAMBIA EL NOMBRE").
+     4) Borra las secciones "Cómo funciona" y "Personalización" si no
+        las quieres en tu versión final.
+
+  ➤ CADA PRODUCTO AHORA ADMITE VARIAS IMÁGENES:
+       imagenes: ["imagenes/foto-1.jpg", "imagenes/foto-2.jpg"]
+     · Las imágenes rotan solas en la tarjeta (con pausa al pasar el mouse).
+     · Al hacer clic en una imagen se abre en pantalla completa.
+     · Dentro del visor: arrastra para moverla, flechas ‹ › para navegar,
+       clic fuera (sin arrastrar) para cerrar, Esc para cerrar.
+  ═════════════════════════════════════════════════════════════════════════
+-->
+
+<style>
+  /* ============================ VARIABLES / TEMAS ========================== */
+  :root{
+    color-scheme: light;
+    --fondo:#faf8ff;
+    --superficie:#ffffff;
+    --superficie-2:#f3efff;
+    --texto:#171223;
+    --texto-suave:#635c78;
+    --borde:rgba(23,18,35,.09);
+    --sombra:0 12px 34px -14px rgba(70,30,140,.28);
+    --sombra-hover:0 26px 50px -18px rgba(70,30,140,.40);
+    --acento:#7c3aed;
+    --acento-2:#ec4899;
+    --grad:linear-gradient(135deg,#7c3aed 0%,#c026d3 55%,#ec4899 100%);
+    --grad-suave:linear-gradient(135deg,rgba(124,58,237,.12),rgba(236,72,153,.12));
+    --header-bg:rgba(250,248,255,.82);
+    --wa:#25D366;
+    --aviso-bg:rgba(236,72,153,.10);
+    --aviso-borde:rgba(236,72,153,.35);
+  }
+  [data-theme="dark"]{
+    color-scheme: dark;
+    --fondo:#0a0710;
+    --superficie:#161022;
+    --superficie-2:#1e1630;
+    --texto:#f4efff;
+    --texto-suave:#a79fbd;
+    --borde:rgba(255,255,255,.10);
+    --sombra:0 12px 34px -14px rgba(0,0,0,.85);
+    --sombra-hover:0 26px 55px -18px rgba(124,58,237,.55);
+    --grad-suave:linear-gradient(135deg,rgba(124,58,237,.22),rgba(236,72,153,.16));
+    --header-bg:rgba(10,7,16,.78);
+    --aviso-bg:rgba(236,72,153,.16);
+    --aviso-borde:rgba(236,72,153,.45);
+  }
+
+  /* ================================ BASE ================================== */
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:"Outfit",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--texto);
+    background:
+      radial-gradient(900px 520px at 8% -12%, rgba(124,58,237,.20), transparent 62%),
+      radial-gradient(820px 520px at 102% -4%, rgba(236,72,153,.16), transparent 58%),
+      var(--fondo);
+    background-attachment:fixed;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    transition:background-color .35s ease,color .35s ease;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  button{font-family:inherit;}
+
+  .contenedor{
+    width:100%;
+    max-width:1200px;
+    margin:0 auto;
+    padding:0 clamp(16px,4vw,32px);
+  }
+
+  /* =============================== HEADER ================================= */
+  .header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:var(--header-bg);
+    backdrop-filter:blur(16px) saturate(160%);
+    -webkit-backdrop-filter:blur(16px) saturate(160%);
+    border-bottom:1px solid var(--borde);
+    transition:background-color .35s ease,border-color .35s ease;
+  }
+  .header-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    min-height:70px;
+  }
+  .marca{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+    font-weight:800;
+    letter-spacing:-.02em;
+    font-size:clamp(1rem,2.6vw,1.18rem);
+  }
+  .marca-logo{
+    width:40px;height:40px;
+    border-radius:13px;
+    background:var(--grad);
+    display:grid;place-items:center;
+    color:#fff;font-size:1.15rem;font-weight:900;
+    box-shadow:0 8px 20px -8px rgba(124,58,237,.9);
+    flex:none;
+  }
+  .marca-texto span{
+    display:block;
+    font-size:.66rem;
+    font-weight:600;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--texto-suave);
+    margin-top:2px;
+  }
+
+  .btn-tema{
+    width:46px;height:46px;
+    flex:none;
+    display:grid;place-items:center;
+    border-radius:14px;
+    border:1px solid var(--borde);
+    background:var(--superficie);
+    color:var(--texto);
+    cursor:pointer;
+    box-shadow:var(--sombra);
+    transition:transform .25s ease,border-color .25s ease,background-color .35s ease;
+  }
+  .btn-tema:hover{transform:translateY(-2px) rotate(-6deg);border-color:var(--acento);}
+  .btn-tema:active{transform:scale(.94);}
+  .btn-tema svg{width:21px;height:21px;}
+  .btn-tema .icono-sol{display:none;}
+  [data-theme="dark"] .btn-tema .icono-sol{display:block;}
+  [data-theme="dark"] .btn-tema .icono-luna{display:none;}
+
+  /* ============================ AVISO DEMO ================================ */
+  .aviso-demo{
+    background:var(--aviso-bg);
+    border-bottom:1px solid var(--aviso-borde);
+    color:var(--texto);
+    font-size:.82rem;
+    font-weight:600;
+    text-align:center;
+    padding:9px clamp(14px,4vw,24px);
+    transition:background-color .35s ease,border-color .35s ease;
+  }
+  .aviso-demo strong{color:var(--acento-2);font-weight:800;letter-spacing:.02em;}
+
+  /* ================================ HERO ================================== */
+  .hero{
+    padding:clamp(42px,8vw,86px) 0 clamp(28px,5vw,48px);
+    text-align:center;
+  }
+  .pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 16px;
+    border-radius:999px;
+    font-size:.78rem;
+    font-weight:700;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--acento);
+    background:var(--grad-suave);
+    border:1px solid var(--borde);
+    margin-bottom:20px;
+  }
+  .pill::before{
+    content:"";
+    width:8px;height:8px;border-radius:50%;
+    background:var(--wa);
+    box-shadow:0 0 0 0 rgba(37,211,102,.7);
+    animation:pulso 2s infinite;
+  }
+  @keyframes pulso{
+    0%{box-shadow:0 0 0 0 rgba(37,211,102,.65);}
+    70%{box-shadow:0 0 0 10px rgba(37,211,102,0);}
+    100%{box-shadow:0 0 0 0 rgba(37,211,102,0);}
+  }
+  .hero h1{
+    margin:0 0 16px;
+    font-size:clamp(2rem,6vw,3.6rem);
+    line-height:1.06;
+    letter-spacing:-.035em;
+    font-weight:900;
+  }
+  .hero h1 .grad{
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .hero p{
+    max-width:640px;
+    margin:0 auto;
+    color:var(--texto-suave);
+    font-size:clamp(.95rem,2.2vw,1.1rem);
+  }
+
+  /* ========================= SECCIONES INFORMATIVAS ======================= */
+  .seccion-info{padding:0 0 clamp(40px,6vw,70px);}
+  .seccion-cabecera{text-align:center;margin-bottom:clamp(24px,4vw,36px);}
+  .seccion-cabecera h2{
+    margin:0 0 10px;
+    font-size:clamp(1.5rem,4vw,2.2rem);
+    letter-spacing:-.025em;
+    font-weight:900;
+  }
+  .seccion-cabecera p{
+    margin:0 auto;
+    max-width:560px;
+    color:var(--texto-suave);
+    font-size:clamp(.9rem,2vw,1rem);
+  }
+
+  .pasos-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));
+    gap:clamp(14px,2vw,20px);
+  }
+  .paso{
+    position:relative;
+    background:var(--superficie);
+    border:1px solid var(--borde);
+    border-radius:20px;
+    padding:24px 22px 22px;
+    box-shadow:var(--sombra);
+    transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease,background-color .35s ease;
+  }
+  .paso:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--sombra-hover);
+    border-color:rgba(124,58,237,.4);
+  }
+  .paso-numero{
+    position:absolute;
+    top:12px;right:18px;
+    font-size:2.4rem;
+    font-weight:900;
+    line-height:1;
+    color:var(--texto-suave);
+    opacity:.16;
+    letter-spacing:-.04em;
+  }
+  .paso-icono{
+    width:48px;height:48px;
+    border-radius:14px;
+    background:var(--grad);
+    display:grid;place-items:center;
+    font-size:1.4rem;
+    color:#fff;
+    margin-bottom:14px;
+    box-shadow:0 10px 22px -10px rgba(124,58,237,.9);
+  }
+  .paso h3{
+    margin:0 0 8px;
+    font-size:1.02rem;
+    letter-spacing:-.01em;
+    font-weight:800;
+  }
+  .paso p{
+    margin:0;
+    font-size:.87rem;
+    color:var(--texto-suave);
+    line-height:1.55;
+  }
+
+  .bloque-destacado{
+    position:relative;
+    overflow:hidden;
+    padding:clamp(28px,5vw,46px);
+    border-radius:26px;
+    background:var(--grad);
+    color:#fff;
+    margin-bottom:clamp(40px,6vw,70px);
+    box-shadow:0 24px 60px -28px rgba(124,58,237,.9);
+  }
+  .bloque-destacado::before{
+    content:"";
+    position:absolute;inset:0;
+    background:
+      radial-gradient(600px 300px at 0% 0%, rgba(255,255,255,.18), transparent 60%),
+      radial-gradient(500px 300px at 100% 100%, rgba(255,255,255,.10), transparent 60%);
+    pointer-events:none;
+  }
+  .bloque-destacado > *{position:relative;}
+  .bloque-destacado .seccion-cabecera h2{color:#fff;}
+  .bloque-destacado .seccion-cabecera p{color:rgba(255,255,255,.88);}
+
+  .features-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));
+    gap:clamp(12px,1.8vw,18px);
+  }
+  .feature{
+    display:flex;
+    gap:12px;
+    padding:16px 18px;
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.22);
+    border-radius:16px;
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    align-items:flex-start;
+    transition:background-color .25s ease,transform .25s ease;
+  }
+  .feature:hover{background:rgba(255,255,255,.20);transform:translateY(-2px);}
+  .feature-icono{font-size:1.5rem;flex:none;line-height:1;}
+  .feature h4{
+    margin:0 0 3px;
+    font-size:.94rem;
+    font-weight:800;
+    color:#fff;
+    letter-spacing:-.01em;
+  }
+  .feature p{
+    margin:0;
+    font-size:.81rem;
+    line-height:1.5;
+    color:rgba(255,255,255,.88);
+  }
+
+  /* =============================== GRILLA ================================= */
+  .titulo-seccion{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:0 0 22px;
+    font-size:.78rem;
+    font-weight:800;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--texto-suave);
+  }
+  .titulo-seccion::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:linear-gradient(90deg,var(--borde),transparent);
+  }
+
+  .grilla{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));
+    gap:clamp(16px,2.4vw,26px);
+    padding-bottom:clamp(40px,6vw,70px);
+  }
+
+  /* ================================ TARJETA =============================== */
+  .card{
+    display:flex;
+    flex-direction:column;
+    background:var(--superficie);
+    border:1px solid var(--borde);
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:var(--sombra);
+    opacity:0;
+    transform:translateY(20px);
+    transition:
+      opacity .6s ease var(--delay,0ms),
+      transform .6s cubic-bezier(.2,.75,.3,1) var(--delay,0ms),
+      box-shadow .3s ease,
+      border-color .3s ease,
+      background-color .35s ease;
+  }
+  .card.visible{opacity:1;transform:none;}
+  .card.visible:hover{
+    transform:translateY(-8px);
+    box-shadow:var(--sombra-hover);
+    border-color:rgba(124,58,237,.45);
+  }
+
+  /* === Carrusel de imágenes dentro de la tarjeta === */
+  .card-media{
+    position:relative;
+    aspect-ratio:4/3;
+    overflow:hidden;
+    background:var(--grad-suave);
+    cursor:zoom-in;
+  }
+  .card-img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:0;
+    transition:opacity .6s ease, transform .55s cubic-bezier(.2,.75,.3,1);
+    pointer-events:none; /* los clics van al contenedor */
+    user-select:none;
+    -webkit-user-drag:none;
+  }
+  .card-img.active{opacity:1;}
+  .card.visible:hover .card-img.active{transform:scale(1.05);}
+
+  /* Fallback si NO hay imágenes o todas fallan */
+  .card-media.sin-imagen{
+    background:
+      repeating-linear-gradient(45deg,
+        rgba(124,58,237,.08) 0 12px,
+        rgba(236,72,153,.08) 12px 24px);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    cursor:default;
+  }
+  .card-media.sin-imagen::before{
+    content:"🖼️";
+    font-size:2.4rem;
+    opacity:.55;
+  }
+  .card-media.sin-imagen::after{
+    content:"Imagen no disponible";
+    font-size:.7rem;
+    font-weight:800;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--texto-suave);
+  }
+  .card-media.sin-imagen .card-dots{display:none;}
+
+  .badge{
+    position:absolute;
+    top:12px;left:12px;
+    padding:6px 12px;
+    border-radius:999px;
+    font-size:.7rem;
+    font-weight:800;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:#fff;
+    background:var(--grad);
+    box-shadow:0 6px 16px -6px rgba(124,58,237,.95);
+    z-index:2;
+    pointer-events:none;
+  }
+
+  /* Puntos indicadores del carrusel */
+  .card-dots{
+    position:absolute;
+    bottom:10px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:6px;
+    z-index:3;
+    padding:5px 8px;
+    border-radius:999px;
+    background:rgba(0,0,0,.35);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+  }
+  .card-dot{
+    width:7px;
+    height:7px;
+    padding:0;
+    border:0;
+    border-radius:999px;
+    background:rgba(255,255,255,.55);
+    cursor:pointer;
+    transition:all .25s ease;
+  }
+  .card-dot.active{
+    background:#fff;
+    width:18px;
+    border-radius:4px;
+  }
+  .card-dot:hover{background:rgba(255,255,255,.9);}
+
+  .card-body{
+    display:flex;
+    flex-direction:column;
+    flex:1;
+    padding:18px 18px 20px;
+    gap:8px;
+  }
+  .card-titulo{
+    margin:0;
+    font-size:1.12rem;
+    font-weight:800;
+    letter-spacing:-.02em;
+    line-height:1.25;
+  }
+  .card-desc{
+    margin:0;
+    font-size:.88rem;
+    line-height:1.55;
+    color:var(--texto-suave);
+  }
+  .card-pie{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:auto;
+    padding-top:14px;
+  }
+  .precio{
+    font-size:1.42rem;
+    font-weight:900;
+    letter-spacing:-.03em;
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    white-space:nowrap;
+  }
+
+  .cantidad{
+    display:inline-flex;
+    align-items:center;
+    gap:2px;
+    padding:4px;
+    border-radius:12px;
+    border:1px solid var(--borde);
+    background:var(--superficie-2);
+  }
+  .cantidad button{
+    width:30px;height:30px;
+    display:grid;place-items:center;
+    border:0;
+    border-radius:9px;
+    background:transparent;
+    color:var(--texto);
+    font-size:1.05rem;
+    font-weight:800;
+    line-height:1;
+    cursor:pointer;
+    transition:background-color .2s ease,color .2s ease,transform .15s ease;
+  }
+  .cantidad button:hover{background:var(--acento);color:#fff;}
+  .cantidad button:active{transform:scale(.88);}
+  .cantidad .num{
+    min-width:26px;
+    text-align:center;
+    font-weight:800;
+    font-size:.95rem;
+    font-variant-numeric:tabular-nums;
+  }
+
+  .btn-pedir{
+    margin-top:14px;
+    width:100%;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:14px 16px;
+    border:0;
+    border-radius:14px;
+    background:var(--grad);
+    color:#fff;
+    font-size:.94rem;
+    font-weight:800;
+    letter-spacing:.01em;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 12px 26px -12px rgba(124,58,237,.95);
+    transition:transform .2s ease,box-shadow .25s ease,filter .2s ease;
+  }
+  .btn-pedir svg{width:19px;height:19px;flex:none;}
+  .btn-pedir::after{
+    content:"";
+    position:absolute;inset:0;
+    background:linear-gradient(120deg,transparent 25%,rgba(255,255,255,.35) 50%,transparent 75%);
+    transform:translateX(-120%);
+    transition:transform .65s ease;
+  }
+  .btn-pedir:hover{transform:translateY(-2px);box-shadow:0 18px 34px -14px rgba(124,58,237,1);filter:brightness(1.06);}
+  .btn-pedir:hover::after{transform:translateX(120%);}
+  .btn-pedir:active{transform:scale(.975);}
+
+  /* ============================ LIGHTBOX ================================= */
+  .lightbox{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    background:#000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .25s ease, visibility 0s linear .25s;
+  }
+  .lightbox.activo{
+    opacity:1;
+    visibility:visible;
+    transition:opacity .25s ease, visibility 0s linear 0s;
+  }
+
+  .lightbox-img-wrap{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:grab;
+    touch-action:none;
+    overflow:hidden;
+  }
+  .lightbox.dragging .lightbox-img-wrap{cursor:grabbing;}
+
+  .lightbox-img{
+    width:100%;
+    height:100%;
+    object-fit:contain;       /* no se estira, se adapta */
+    pointer-events:none;
+    user-select:none;
+    -webkit-user-drag:none;
+    will-change:transform;
+  }
+
+  .lightbox-arrow,
+  .lightbox-close{
+    position:absolute;
+    z-index:3;
+    border:1px solid rgba(255,255,255,.3);
+    background:rgba(0,0,0,.5);
+    color:#fff;
+    cursor:pointer;
+    display:grid;
+    place-items:center;
+    transition:background .2s ease, transform .2s ease;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+  }
+  .lightbox-arrow{
+    top:50%;
+    transform:translateY(-50%);
+    width:48px;height:48px;
+    border-radius:50%;
+    font-size:24px;
+    line-height:1;
+  }
+  .lightbox-arrow:hover{background:rgba(0,0,0,.8);}
+  .lightbox-arrow:active{transform:translateY(-50%) scale(.92);}
+  .lightbox-arrow.prev{left:14px;}
+  .lightbox-arrow.next{right:14px;}
+
+  .lightbox-close{
+    top:14px;right:14px;
+    width:44px;height:44px;
+    border-radius:50%;
+    font-size:22px;
+    line-height:1;
+  }
+  .lightbox-close:hover{background:rgba(0,0,0,.8);transform:rotate(90deg);}
+
+  .lightbox-counter{
+    position:absolute;
+    bottom:18px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:3;
+    padding:6px 16px;
+    border-radius:999px;
+    background:rgba(0,0,0,.6);
+    color:#fff;
+    font-size:.85rem;
+    font-weight:700;
+    letter-spacing:.06em;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+  }
+
+  .oculto{display:none !important;}
+
+  /* =========================== BOTÓN FLOTANTE ============================= */
+  .flotante{
+    position:fixed;
+    right:clamp(14px,3vw,26px);
+    bottom:clamp(14px,3vw,26px);
+    z-index:60;
+    width:58px;height:58px;
+    display:grid;place-items:center;
+    border-radius:50%;
+    background:var(--wa);
+    color:#fff;
+    box-shadow:0 14px 30px -10px rgba(37,211,102,.85);
+    transition:transform .25s ease,box-shadow .25s ease;
+  }
+  .flotante svg{width:30px;height:30px;}
+  .flotante:hover{transform:scale(1.09) rotate(6deg);box-shadow:0 20px 38px -12px rgba(37,211,102,1);}
+
+  /* =============================== FOOTER ================================= */
+  .footer{
+    border-top:1px solid var(--borde);
+    padding:34px 0 90px;
+    text-align:center;
+    background:linear-gradient(180deg,transparent,rgba(124,58,237,.06));
+  }
+  .footer-marca{
+    margin:0 0 10px;
+    font-weight:900;
+    letter-spacing:-.02em;
+    font-size:1.02rem;
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .footer-link{
+    display:inline-block;
+    font-size:.85rem;
+    font-weight:600;
+    text-decoration:none;
+    color:var(--texto-suave);
+    padding:6px 10px;
+    border-radius:10px;
+    transition:color .25s ease,background-color .25s ease,transform .25s ease;
+  }
+  .footer-link:hover{
+    color:var(--acento);
+    background:var(--grad-suave);
+    transform:translateY(-2px);
+  }
+
+  /* ============================= ACCESIBILIDAD ============================ */
+  :focus-visible{outline:2px solid var(--acento);outline-offset:3px;border-radius:8px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition-duration:.001ms !important;}
+    .card{opacity:1;transform:none;}
+    html{scroll-behavior:auto;}
+  }
+
+  @media (max-width:420px){
+    .card-pie{flex-wrap:wrap;}
+    .precio{font-size:1.3rem;}
+    .lightbox-arrow{width:42px;height:42px;font-size:20px;}
+    .lightbox-close{width:40px;height:40px;}
+  }
+</style>
+</head>
+<body>
+
+  <!-- =============================== HEADER =============================== -->
+  <header class="header">
+    <div class="contenedor header-inner">
+      <a class="marca" href="#top">
+        <!-- ← CAMBIA EL NOMBRE DE LA TIENDA AQUÍ -->
+        <span class="marca-logo">M</span>
+        <span class="marca-texto">
+          Mi Tienda
+          <span>Página de muestra</span>
+        </span>
+        <!-- ← FIN CAMBIO DE NOMBRE -->
+      </a>
+      <button class="btn-tema" id="btnTema" type="button" aria-label="Cambiar entre modo claro y nocturno" title="Cambiar tema">
+        <svg class="icono-luna" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icono-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ╔═════════════════════════════════════════════════════════════════════╗
+       ║  🟡 AVISO DE DEMO — borrar cuando publiques la versión final        ║
+       ╚═════════════════════════════════════════════════════════════════════╝ -->
+  <div class="aviso-demo" role="note">
+    <strong>⚠️ Página de demostración</strong> — Productos, precios e imágenes son de ejemplo. Haz clic en cualquier imagen para verla a pantalla completa, arrástrala para moverla y usa las flechas ‹ › para navegar.
+  </div>
+
+  <main id="top">
+    <!-- =============================== HERO =============================== -->
+    <section class="hero contenedor">
+      <span class="pill">Plantilla lista para personalizar</span>
+      <h1>Tu tienda online, <span class="grad">lista para vender</span></h1>
+      <p>Demostración funcional con galería de imágenes, zoom a pantalla completa y pedidos por WhatsApp. Cambia productos, imágenes y datos en el código para publicarla con tu marca real.</p>
+    </section>
+
+    <!-- ╔═════════════════════════════════════════════════════════════════╗
+         ║  🟡 CÓMO FUNCIONA — puedes borrar esta sección entera           ║
+         ╚═════════════════════════════════════════════════════════════════╝ -->
+    <section class="seccion-info contenedor">
+      <div class="seccion-cabecera">
+        <h2>¿Cómo funciona?</h2>
+        <p>Pedir es tan fácil como enviar un mensaje. Sin registros, sin cuentas, sin complicaciones.</p>
+      </div>
+
+      <div class="pasos-grid">
+        <article class="paso">
+          <span class="paso-numero">01</span>
+          <div class="paso-icono">🛍️</div>
+          <h3>Elige tu producto</h3>
+          <p>Explora el catálogo y toca una imagen para verla en grande. Cada producto muestra varias fotos.</p>
+        </article>
+        <article class="paso">
+          <span class="paso-numero">02</span>
+          <div class="paso-icono">🔢</div>
+          <h3>Ajusta la cantidad</h3>
+          <p>Con los botones <strong>+</strong> y <strong>−</strong> selecciona cuántas unidades quieres pedir.</p>
+        </article>
+        <article class="paso">
+          <span class="paso-numero">03</span>
+          <div class="paso-icono">💬</div>
+          <h3>Pide por WhatsApp</h3>
+          <p>Un solo clic abre WhatsApp con el pedido ya escrito: producto, cantidad, precio unitario y total.</p>
+        </article>
+        <article class="paso">
+          <span class="paso-numero">04</span>
+          <div class="paso-icono">✅</div>
+          <h3>Confirma con nosotros</h3>
+          <p>Te respondemos por el mismo chat para coordinar el pago y la entrega. Todo claro y directo.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============================== PRODUCTOS ============================== -->
+    <section class="contenedor">
+      <h2 class="titulo-seccion">Productos de muestra</h2>
+      <div class="grilla" id="grilla" aria-live="polite"></div>
+    </section>
+
+    <!-- ╔═════════════════════════════════════════════════════════════════╗
+         ║  🟡 PERSONALIZACIÓN — puedes borrar esta sección entera         ║
+         ╚═════════════════════════════════════════════════════════════════╝ -->
+    <section class="contenedor">
+      <div class="bloque-destacado">
+        <div class="seccion-cabecera">
+          <h2>Diseño 100% personalizable</h2>
+          <p>Esta plantilla es solo el punto de partida. Podemos adaptar el diseño a la identidad visual de tu marca: colores, tipografía, formas, secciones y animaciones.</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature">
+            <span class="feature-icono">🎨</span>
+            <div>
+              <h4>Identidad visual propia</h4>
+              <p>Colores, logotipo y tipografía alineados a tu marca.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="feature-icono">🖼️</span>
+            <div>
+              <h4>Galería multi-imagen</h4>
+              <p>Varias fotos por producto con rotación automática.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="feature-icono">🔍</span>
+            <div>
+              <h4>Zoom a pantalla completa</h4>
+              <p>Toca una imagen para verla en grande, con flechas para navegar.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="feature-icono">🌓</span>
+            <div>
+              <h4>Modo claro y nocturno</h4>
+              <p>Se adapta a la preferencia del visitante y se recuerda.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="feature-icono">📱</span>
+            <div>
+              <h4>100% responsive</h4>
+              <p>Perfecto en celular, tablet y computadora.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <span class="feature-icono">⚡</span>
+            <div>
+              <h4>Sin servidor, carga rápida</h4>
+              <p>Solo un archivo HTML. Sin base de datos ni backend.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== BOTÓN FLOTANTE DE WHATSAPP ==================== -->
+  <a class="flotante" id="flotante" href="#" target="_blank" rel="noopener noreferrer" aria-label="Escribir por WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <!-- =============================== FOOTER =============================== -->
+  <footer class="footer">
+    <div class="contenedor">
+      <p class="footer-marca">Mi Tienda · Página de muestra</p>
+      <a class="footer-link"
+         href="https://jaid227.github.io/EntropiaDigital/"
+         target="_blank"
+         rel="noopener noreferrer">
+        → © 2026 Mandrágora Entrópica | Desarrollo Web Estratégico ←
+      </a>
+    </div>
+  </footer>
+
+  <!-- ===================== VISOR A PANTALLA COMPLETA ===================== -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Visor de imágenes">
+    <div class="lightbox-img-wrap" id="lightboxWrap">
+      <img class="lightbox-img" id="lightboxImg" alt="" draggable="false">
+    </div>
+    <button class="lightbox-arrow prev" id="lightboxPrev" type="button" aria-label="Imagen anterior">‹</button>
+    <button class="lightbox-arrow next" id="lightboxNext" type="button" aria-label="Imagen siguiente">›</button>
+    <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Cerrar visor">×</button>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
+  </div>
+
+<script>
+/* ╔═══════════════════════════════════════════════════════════════════════╗
+   ║  1) CONFIGURACIÓN GENERAL — EDITA ESTO PRIMERO                          ║
+   ╚═══════════════════════════════════════════════════════════════════════╝ */
+const CONFIG = {
+  // ⚠️ Número de WhatsApp DE EJEMPLO. Cámbialo por el tuyo real.
+  // Formato: código de país + número. SIN "+", SIN espacios, SIN guiones.
+  // México: 5215512345678  |  Argentina: 5491123456789  |  España: 34612345678
+  whatsapp: "5210000000000",
+
+  moneda: "$",
+  locale: "es-MX",
+
+  saludo: "¡Hola! 👋 Vengo de la tienda y quiero pedir:",
+  consultaGeneral: "¡Hola! 👋 Vengo de la tienda y tengo una consulta."
+};
+
+
+/* ╔═══════════════════════════════════════════════════════════════════════╗
+   ║  2) 🟢 TUS PRODUCTOS REALES — EMPIEZA A EDITAR AQUÍ                     ║
+   ║                                                                         ║
+   ║  Rellena este arreglo con tus productos. Mientras esté VACÍO,           ║
+   ║  la página muestra los 9 productos de muestra de abajo.                 ║
+   ║                                                                         ║
+   ║  👉 Copia y pega este bloque por cada producto:                         ║
+   ║                                                                         ║
+   ║     {                                                                   ║
+   ║       id: "prod-01",                                                    ║
+   ║       nombre: "Nombre del producto",                                    ║
+   ║       descripcion: "Descripción breve y atractiva.",                    ║
+   ║       precio: 199,                                                      ║
+   ║       imagenes: [                                                       ║
+   ║         "imagenes/producto-1a.jpg",                                     ║
+   ║         "imagenes/producto-1b.jpg",                                     ║
+   ║         "imagenes/producto-1c.jpg"                                      ║
+   ║       ],                                                                ║
+   ║       etiqueta: "Nuevo"   // opcional                                   ║
+   ║     },                                                                  ║
+   ╚═══════════════════════════════════════════════════════════════════════╝ */
+const PRODUCTOS_REALES = [
+  // ⬇️ PEGA AQUÍ TUS PRODUCTOS REALES
+
+  // ⬇️ EJEMPLO (descomenta cambiando /* por nada):
+  /*
+  {
+    id: "prod-01",
+    nombre: "Vela de lavanda",
+    descripcion: "Vela artesanal de cera de soya con aroma a lavanda. 200 g, 40 horas de duración.",
+    precio: 249,
+    imagenes: [
+      "imagenes/vela-lavanda-1.jpg",
+      "imagenes/vela-lavanda-2.jpg",
+      "imagenes/vela-lavanda-3.jpg"
+    ],
+    etiqueta: "Nuevo"
+  },
+  */
+];
+
+
+/* ╔═══════════════════════════════════════════════════════════════════════╗
+   ║  3) 🟡 PRODUCTOS DE MUESTRA — BORRA TODO ESTE BLOQUE CUANDO TENGAS     ║
+   ║     TUS PRODUCTOS REALES. Las imágenes se generan con SVG, así que     ║
+   ║     no necesitas archivos externos para la demo.                       ║
+   ╚═══════════════════════════════════════════════════════════════════════╝ */
+
+const crearImagenMuestra = (numero, color1, color2, etiqueta) => {
+  const num = String(numero).padStart(2, "0");
+  const texto = etiqueta || "IMAGEN DE MUESTRA";
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">' +
+    '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+    '<stop offset="0" stop-color="' + color1 + '"/>' +
+    '<stop offset="1" stop-color="' + color2 + '"/>' +
+    '</linearGradient></defs>' +
+    '<rect width="400" height="300" fill="url(#g)"/>' +
+    '<circle cx="340" cy="50" r="110" fill="rgba(255,255,255,0.10)"/>' +
+    '<circle cx="50" cy="270" r="130" fill="rgba(255,255,255,0.10)"/>' +
+    '<circle cx="345" cy="270" r="55" fill="rgba(255,255,255,0.08)"/>' +
+    '<text x="200" y="155" font-size="120" font-weight="900" fill="rgba(255,255,255,0.92)" font-family="Arial,sans-serif" text-anchor="middle" dominant-baseline="middle">' + num + '</text>' +
+    '<text x="200" y="245" font-size="13" fill="rgba(255,255,255,0.85)" font-family="Arial,sans-serif" font-weight="700" text-anchor="middle" letter-spacing="3">' + texto + '</text>' +
+    '</svg>';
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+};
+
+const PRODUCTOS_MUESTRA = [
+  {
+    id: "muestra-01",
+    nombre: "Nombre del Producto 1",
+    descripcion: "Aquí se coloca la descripción real del producto. Explica qué es, sus características y beneficios en una o dos líneas claras.",
+    precio: 199,
+    imagenes: [
+      crearImagenMuestra(1, "#7c3aed", "#ec4899", "IMAGEN 1 DE 3"),
+      crearImagenMuestra(1, "#ec4899", "#f59e0b", "IMAGEN 2 DE 3"),
+      crearImagenMuestra(1, "#f59e0b", "#7c3aed", "IMAGEN 3 DE 3")
+    ],
+    etiqueta: "Muestra"
+  },
+  {
+    id: "muestra-02",
+    nombre: "Nombre del Producto 2",
+    descripcion: "Aquí se coloca la descripción real del producto. Puedes incluir materiales, tamaño, sabor o modo de uso.",
+    precio: 349.90,
+    imagenes: [
+      crearImagenMuestra(2, "#0ea5e9", "#6366f1", "IMAGEN 1 DE 3"),
+      crearImagenMuestra(2, "#6366f1", "#8b5cf6", "IMAGEN 2 DE 3"),
+      crearImagenMuestra(2, "#8b5cf6", "#0ea5e9", "IMAGEN 3 DE 3")
+    ],
+    etiqueta: "Muestra"
+  },
+  {
+    id: "muestra-03",
+    nombre: "Nombre del Producto 3",
+    descripcion: "Aquí se coloca la descripción real del producto. Destaca su beneficio principal en una o dos líneas.",
+    precio: 89,
+    imagenes: [
+      crearImagenMuestra(3, "#f59e0b", "#ef4444", "IMAGEN 1 DE 3"),
+      crearImagenMuestra(3, "#ef4444", "#ec4899", "IMAGEN 2 DE 3"),
+      crearImagenMuestra(3, "#ec4899", "#f59e0b", "IMAGEN 3 DE 3")
+    ]
+  },
+  {
+    id: "muestra-04",
+    nombre: "Nombre del Producto 4",
+    descripcion: "Aquí se coloca la descripción real del producto. Reemplaza este texto con la información real de tu tienda.",
+    precio: 520,
+    imagenes: [
+      crearImagenMuestra(4, "#10b981", "#0ea5e9", "IMAGEN 1 DE 2"),
+      crearImagenMuestra(4, "#0ea5e9", "#10b981", "IMAGEN 2 DE 2")
+    ],
+    etiqueta: "-15%"
+  },
+  {
+    id: "muestra-05",
+    nombre: "Nombre del Producto 5",
+    descripcion: "Aquí se coloca la descripción real del producto. Un texto claro ayuda a que el cliente decida rápido.",
+    precio: 275,
+    imagenes: [
+      crearImagenMuestra(5, "#ec4899", "#f59e0b", "IMAGEN 1 DE 2"),
+      crearImagenMuestra(5, "#f59e0b", "#ec4899", "IMAGEN 2 DE 2")
+    ]
+  },
+  {
+    id: "muestra-06",
+    nombre: "Nombre del Producto 6",
+    descripcion: "Aquí se coloca la descripción real del producto. Puedes añadir detalles de envío o disponibilidad.",
+    precio: 149.50,
+    imagenes: [
+      crearImagenMuestra(6, "#6366f1", "#ec4899", "IMAGEN 1 DE 2"),
+      crearImagenMuestra(6, "#ec4899", "#6366f1", "IMAGEN 2 DE 2")
+    ],
+    etiqueta: "Nuevo"
+  },
+  {
+    id: "muestra-07",
+    nombre: "Nombre del Producto 7",
+    descripcion: "Aquí se coloca la descripción real del producto. Explica qué lo hace especial y por qué vale la pena.",
+    precio: 410,
+    imagenes: [
+      crearImagenMuestra(7, "#14b8a6", "#8b5cf6", "IMAGEN ÚNICA")
+    ]
+  },
+  {
+    id: "muestra-08",
+    nombre: "Nombre del Producto 8",
+    descripcion: "Aquí se coloca la descripción real del producto. Sé breve pero descriptivo para facilitar la compra.",
+    precio: 99,
+    imagenes: [
+      crearImagenMuestra(8, "#f97316", "#eab308", "IMAGEN ÚNICA")
+    ]
+  },
+  {
+    id: "muestra-09",
+    nombre: "Nombre del Producto 9",
+    descripcion: "Aquí se coloca la descripción real del producto. Este es el último ejemplo; reemplázalo por uno de los tuyos.",
+    precio: 680,
+    imagenes: [
+      crearImagenMuestra(9, "#8b5cf6", "#06b6d4", "IMAGEN ÚNICA")
+    ],
+    etiqueta: "Best seller"
+  }
+];
+/* ═════════════════════ FIN PRODUCTOS DE MUESTRA ═════════════════════ */
+
+
+/* ╔═══════════════════════════════════════════════════════════════════════╗
+   ║  4) SELECCIÓN AUTOMÁTICA — No tocar                                    ║
+   ║  Si PRODUCTOS_REALES tiene productos, se usan esos. Si no, la demo.    ║
+   ╚═══════════════════════════════════════════════════════════════════════╝ */
+const PRODUCTOS = PRODUCTOS_REALES.length > 0 ? PRODUCTOS_REALES : PRODUCTOS_MUESTRA;
+
+
+/* ╔═══════════════════════════════════════════════════════════════════════╗
+   ║  5) LÓGICA — No necesitas tocar nada de aquí abajo                     ║
+   ╚═══════════════════════════════════════════════════════════════════════╝ */
+
+/* --- Utilidades --- */
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => (
+  { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]
+));
+
+const formatoPrecio = (n) => {
+  const num = Number(n) || 0;
+  return CONFIG.moneda + num.toLocaleString(CONFIG.locale, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2
+  });
+};
+
+const numeroLimpio = () => String(CONFIG.whatsapp).replace(/\D/g, "");
+const enlaceWhatsApp = (texto) =>
+  "https://wa.me/" + numeroLimpio() + "?text=" + encodeURIComponent(texto);
+
+// Normaliza "imagenes" (array) o "imagen" (string) a un array
+const getProductImages = (p) => {
+  if (Array.isArray(p.imagenes) && p.imagenes.length > 0) return p.imagenes;
+  if (p.imagen) return [p.imagen];
+  return [];
+};
+
+const ICONO_WA = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+
+/* --- Render --- */
+const grilla = document.getElementById("grilla");
+
+grilla.innerHTML = PRODUCTOS.map((p, i) => {
+  const imgs = getProductImages(p);
+  const multi = imgs.length > 1;
+  return `
+    <article class="card" style="--delay:${Math.min(i, 12) * 70}ms">
+      <div class="card-media ${imgs.length === 0 ? 'sin-imagen' : ''}" data-index="0" data-multi="${multi}">
+        ${imgs.map((src, idx) => `
+          <img class="card-img ${idx === 0 ? 'active' : ''}"
+               src="${esc(src)}"
+               alt="${esc(p.nombre)} - imagen ${idx + 1} de ${imgs.length}"
+               loading="lazy" decoding="async" draggable="false">
+        `).join("")}
+        ${p.etiqueta ? `<span class="badge">${esc(p.etiqueta)}</span>` : ""}
+        ${multi ? `<div class="card-dots">${imgs.map((_, idx) =>
+          `<button class="card-dot ${idx === 0 ? 'active' : ''}" type="button" data-i="${idx}" aria-label="Ver imagen ${idx + 1}"></button>`
+        ).join("")}</div>` : ""}
+      </div>
+      <div class="card-body">
+        <h3 class="card-titulo">${esc(p.nombre)}</h3>
+        <p class="card-desc">${esc(p.descripcion)}</p>
+        <div class="card-pie">
+          <div class="precio">${formatoPrecio(p.precio)}</div>
+          <div class="cantidad" data-id="${esc(p.id)}">
+            <button type="button" data-accion="menos" aria-label="Quitar una unidad">−</button>
+            <span class="num" aria-live="polite">1</span>
+            <button type="button" data-accion="mas" aria-label="Agregar una unidad">+</button>
+          </div>
+        </div>
+        <button class="btn-pedir" type="button" data-id="${esc(p.id)}">
+          ${ICONO_WA}
+          Pedir por WhatsApp
+        </button>
+      </div>
+    </article>
+  `;
+}).join("");
+
+/* --- Manejo de imágenes rotas --- */
+document.querySelectorAll(".card-img").forEach(img => {
+  img.addEventListener("error", function () {
+    this.style.display = "none";
+    const media = this.closest(".card-media");
+    if (!media) return;
+    const visible = [...media.querySelectorAll(".card-img")].filter(i => i.style.display !== "none");
+    if (visible.length === 0) media.classList.add("sin-imagen");
+    if (this.classList.contains("active") && visible.length > 0) {
+      const all = [...media.querySelectorAll(".card-img")];
+      updateCarousel(media, all.indexOf(visible[0]));
+    }
+  });
+});
+
+/* --- Carrusel de imágenes (auto-slide) --- */
+function updateCarousel(media, index) {
+  const imgs = [...media.querySelectorAll(".card-img")];
+  const dots = [...media.querySelectorAll(".card-dot")];
+  if (imgs.length === 0) return;
+  if (index < 0) index = 0;
+  if (index >= imgs.length) index = imgs.length - 1;
+
+  // Si la imagen está rota, saltar a la siguiente visible
+  let attempts = 0;
+  while (imgs[index] && imgs[index].style.display === "none" && attempts < imgs.length) {
+    index = (index + 1) % imgs.length;
+    attempts++;
+  }
+
+  media.dataset.index = index;
+  imgs.forEach((img, i) => img.classList.toggle("active", i === index));
+  dots.forEach((d, i) => d.classList.toggle("active", i === index));
+}
+
+// Pausar el auto-slide al pasar el mouse
+document.querySelectorAll('.card-media[data-multi="true"]').forEach(media => {
+  media.addEventListener("mouseenter", () => media.dataset.paused = "true");
+  media.addEventListener("mouseleave", () => media.dataset.paused = "false");
+});
+
+// Auto-slide global cada 3.5 segundos
+setInterval(() => {
+  document.querySelectorAll('.card-media[data-multi="true"]').forEach(media => {
+    if (media.dataset.paused === "true") return;
+    const imgs = media.querySelectorAll(".card-img");
+    if (imgs.length <= 1) return;
+    const next = (parseInt(media.dataset.index) + 1) % imgs.length;
+    updateCarousel(media, next);
+  });
+}, 3500);
+
+/* --- Clics en la grilla --- */
+grilla.addEventListener("click", (e) => {
+
+  // 1) Puntos indicadores
+  const dot = e.target.closest(".card-dot");
+  if (dot) {
+    const media = dot.closest(".card-media");
+    updateCarousel(media, parseInt(dot.dataset.i));
+    return;
+  }
+
+  // 2) Botones de cantidad
+  const btnCantidad = e.target.closest(".cantidad button");
+  if (btnCantidad) {
+    const caja = btnCantidad.closest(".cantidad");
+    const num = caja.querySelector(".num");
+    let valor = parseInt(num.textContent, 10) || 1;
+    valor += btnCantidad.dataset.accion === "mas" ? 1 : -1;
+    if (valor < 1) valor = 1;
+    if (valor > 99) valor = 99;
+    num.textContent = valor;
+    return;
+  }
+
+  // 3) Botón pedir
+  const btnPedir = e.target.closest(".btn-pedir");
+  if (btnPedir) {
+    pedirProducto(btnPedir.dataset.id, btnPedir);
+    return;
+  }
+
+  // 4) Clic en la imagen → abrir visor
+  const media = e.target.closest(".card-media");
+  if (media && !media.classList.contains("sin-imagen")) {
+    const card = media.closest(".card");
+    const productId = card.querySelector(".btn-pedir")?.dataset.id;
+    const producto = PRODUCTOS.find(p => p.id === productId);
+    if (producto) {
+      const imgs = getProductImages(producto);
+      if (imgs.length > 0) {
+        openLightbox(producto, parseInt(media.dataset.index) || 0);
+      }
+    }
+  }
+});
+
+/* --- Arma el mensaje y abre WhatsApp --- */
+function pedirProducto(id, boton) {
+  const producto = PRODUCTOS.find(p => p.id === id);
+  if (!producto) return;
+  const tarjeta = boton.closest(".card");
+  const cantidad = parseInt(tarjeta.querySelector(".num").textContent, 10) || 1;
+  const total = Number(producto.precio) * cantidad;
+  const mensaje = [
+    CONFIG.saludo,
+    "",
+    `*${cantidad}x ${producto.nombre}*`,
+    `Precio unitario: ${formatoPrecio(producto.precio)}`,
+    `Total: ${formatoPrecio(total)}`
+  ].join("\n");
+  window.open(enlaceWhatsApp(mensaje), "_blank", "noopener,noreferrer");
+}
+
+/* --- Botón flotante --- */
+document.getElementById("flotante").href = enlaceWhatsApp(CONFIG.consultaGeneral);
+
+/* --- Animación de aparición de tarjetas --- */
+const tarjetas = document.querySelectorAll(".card");
+if ("IntersectionObserver" in window) {
+  const observador = new IntersectionObserver((entradas) => {
+    entradas.forEach((entrada) => {
+      if (entrada.isIntersecting) {
+        entrada.target.classList.add("visible");
+        observador.unobserve(entrada.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
+  tarjetas.forEach(t => observador.observe(t));
+  setTimeout(() => tarjetas.forEach(t => t.classList.add("visible")), 1200);
+} else {
+  tarjetas.forEach(t => t.classList.add("visible"));
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   VISOR A PANTALLA COMPLETA (LIGHTBOX)
+   - Clic en imagen de tarjeta → abre el visor
+   - Flechas ‹ › → navegar entre imágenes (sin auto-play)
+   - Arrastrar (mouse o dedo) → mover la imagen
+   - Clic sin arrastrar (o Esc) → cerrar
+   ═══════════════════════════════════════════════════════════════════════ */
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+const lightboxWrap = document.getElementById("lightboxWrap");
+const lightboxPrev = document.getElementById("lightboxPrev");
+const lightboxNext = document.getElementById("lightboxNext");
+const lightboxClose = document.getElementById("lightboxClose");
+const lightboxCounter = document.getElementById("lightboxCounter");
+
+let lbProducto = null;
+let lbImages = [];
+let lbIndex = 0;
+let lbOriginalOverflow = "";
+
+function openLightbox(producto, index) {
+  lbProducto = producto;
+  lbImages = getProductImages(producto);
+  if (lbImages.length === 0) return;
+  lbIndex = Math.max(0, Math.min(index, lbImages.length - 1));
+  renderLightbox();
+  lbOriginalOverflow = document.body.style.overflow;
+  document.body.style.overflow = "hidden";
+  lightbox.classList.add("activo");
+  lightbox.setAttribute("aria-hidden", "false");
+}
+
+function closeLightbox() {
+  lightbox.classList.remove("activo");
+  lightbox.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = lbOriginalOverflow;
+  resetPan();
+}
+
+function renderLightbox() {
+  lightboxImg.src = lbImages[lbIndex];
+  lightboxImg.alt = (lbProducto?.nombre || "") + " - imagen " + (lbIndex + 1) + " de " + lbImages.length;
+  resetPan();
+  const multi = lbImages.length > 1;
+  lightboxPrev.classList.toggle("oculto", !multi);
+  lightboxNext.classList.toggle("oculto", !multi);
+  lightboxCounter.classList.toggle("oculto", !multi);
+  if (multi) lightboxCounter.textContent = (lbIndex + 1) + " / " + lbImages.length;
+}
+
+function navigateLightbox(delta) {
+  if (lbImages.length <= 1) return;
+  lbIndex = (lbIndex + delta + lbImages.length) % lbImages.length;
+  renderLightbox();
+}
+
+/* --- Paneo (arrastrar para mover) --- */
+let panActive = false;
+let panStartX = 0, panStartY = 0;
+let panOffsetX = 0, panOffsetY = 0;
+let panStartOffsetX = 0, panStartOffsetY = 0;
+let panMoved = 0;
+
+function startPan(x, y) {
+  panActive = true;
+  panStartX = x;
+  panStartY = y;
+  panStartOffsetX = panOffsetX;
+  panStartOffsetY = panOffsetY;
+  panMoved = 0;
+  lightbox.classList.add("dragging");
+}
+
+function movePan(x, y) {
+  if (!panActive) return;
+  const dx = x - panStartX;
+  const dy = y - panStartY;
+  panMoved = Math.abs(dx) + Math.abs(dy);
+  panOffsetX = panStartOffsetX + dx;
+  panOffsetY = panStartOffsetY + dy;
+  lightboxImg.style.transform = "translate(" + panOffsetX + "px, " + panOffsetY + "px)";
+}
+
+function endPan() {
+  if (!panActive) return;
+  panActive = false;
+  lightbox.classList.remove("dragging");
+  if (panMoved < 6) closeLightbox(); // clic sin arrastre → cerrar
+}
+
+function resetPan() {
+  panActive = false;
+  panOffsetX = 0;
+  panOffsetY = 0;
+  panStartOffsetX = 0;
+  panStartOffsetY = 0;
+  panMoved = 0;
+  lightboxImg.style.transform = "translate(0, 0)";
+  lightbox.classList.remove("dragging");
+}
+
+/* --- Eventos de mouse --- */
+lightboxWrap.addEventListener("mousedown", (e) => {
+  e.preventDefault();
+  startPan(e.clientX, e.clientY);
+});
+
+document.addEventListener("mousemove", (e) => {
+  if (!panActive) return;
+  e.preventDefault();
+  movePan(e.clientX, e.clientY);
+});
+
+document.addEventListener("mouseup", () => {
+  if (!panActive) return;
+  endPan();
+});
+
+/* --- Eventos táctiles --- */
+lightboxWrap.addEventListener("touchstart", (e) => {
+  if (e.touches.length !== 1) return;
+  e.preventDefault();
+  startPan(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: false });
+
+document.addEventListener("touchmove", (e) => {
+  if (!panActive) return;
+  if (e.touches.length !== 1) return;
+  e.preventDefault();
+  movePan(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: false });
+
+document.addEventListener("touchend", () => {
+  if (!panActive) return;
+  endPan();
+});
+
+/* --- Botones del visor --- */
+lightboxPrev.addEventListener("click", (e) => {
+  e.stopPropagation();
+  navigateLightbox(-1);
+});
+lightboxNext.addEventListener("click", (e) => {
+  e.stopPropagation();
+  navigateLightbox(1);
+});
+lightboxClose.addEventListener("click", (e) => {
+  e.stopPropagation();
+  closeLightbox();
+});
+
+/* --- Teclado --- */
+document.addEventListener("keydown", (e) => {
+  if (!lightbox.classList.contains("activo")) return;
+  if (e.key === "Escape") closeLightbox();
+  else if (e.key === "ArrowLeft") navigateLightbox(-1);
+  else if (e.key === "ArrowRight") navigateLightbox(1);
+});
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MODO CLARO / NOCTURNO
+   ═══════════════════════════════════════════════════════════════════════ */
+const raiz = document.documentElement;
+const btnTema = document.getElementById("btnTema");
+const CLAVE_TEMA = "mi-tienda-tema";
+
+function aplicarTema(tema) {
+  raiz.setAttribute("data-theme", tema);
+  btnTema.setAttribute("aria-label",
+    tema === "dark" ? "Cambiar a modo claro" : "Cambiar a modo nocturno");
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute("content", tema === "dark" ? "#0a0710" : "#faf8ff");
+}
+
+(function iniciarTema() {
+  let guardado = null;
+  try { guardado = localStorage.getItem(CLAVE_TEMA); } catch (e) {}
+  const prefiereOscuro = window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+  aplicarTema(guardado || (prefiereOscuro ? "dark" : "light"));
+})();
+
+btnTema.addEventListener("click", () => {
+  const nuevo = raiz.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  aplicarTema(nuevo);
+  try { localStorage.setItem(CLAVE_TEMA, nuevo); } catch (e) {}
+});
+</script>
+</body>
+</html>
